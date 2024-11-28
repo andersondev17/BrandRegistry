@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  typescript: {
+    ignoreBuildErrors: false, // Mantener en false para desarrollo
+  },
+  experimental: {
+    typedRoutes: true,
+  },
 };
-
 export default nextConfig;

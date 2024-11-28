@@ -4,8 +4,14 @@ import { useBrands } from "@/context/BrandContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+interface EditBrandProps {
+    params: {
+        id: string;
+    };
+    searchParams?: Record<string, string | string[] | undefined>;
+}
 
-export default function EditBrand({ params }: { params: { id: string } }) {
+export default function EditBrand({ params }: EditBrandProps) {
     const { getBrandById, updateBrand } = useBrands();
     const router = useRouter();
     const [formData, setFormData] = useState({
