@@ -4,14 +4,14 @@ import { useBrands } from "@/context/BrandContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-interface EditBrandProps {
+type PageParams = {
     params: {
         id: string;
     };
-    searchParams?: Record<string, string | string[] | undefined>;
 }
 
-export default function EditBrand({ params }: EditBrandProps) {
+export default function EditBrand(props: PageParams) {
+    const { id } = props.params;
     const { getBrandById, updateBrand } = useBrands();
     const router = useRouter();
     const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ export default function EditBrand({ params }: EditBrandProps) {
     });
 
     useEffect(() => {
-        const brand = getBrandById(params.id);
+        const brand = getBrandById(id);
         if (!brand) {
             router.push("/");
             return;
@@ -34,11 +34,11 @@ export default function EditBrand({ params }: EditBrandProps) {
             owner: brand.owner,
             ownerContact: brand.ownerContact || { email: "", phone: "" }
         });
-    }, [params.id, getBrandById, router]);
+    }, [id, getBrandById, router]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        updateBrand(params.id, formData);
+        updateBrand(props.params.id, formData);
         router.push("/");
     };
 
