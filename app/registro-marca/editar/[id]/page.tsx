@@ -1,24 +1,11 @@
 "use client";
 import { Button } from "@/app/components/ui/button";
 import { useBrands } from "@/context/BrandContext";
-import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { id } = context.params as { id: string };
-    // Fetch data from API or database here
-    // Return the data as props for the EditBrand component
-    return {
-        props: {
-            params: { id },
-        },
-    };
-};
-
-export default function EditBrand({ params }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function EditBrand({ params }: { params: { id: string } }) {
     const { getBrandById, updateBrand } = useBrands();
     const router = useRouter();
     const [formData, setFormData] = useState({
