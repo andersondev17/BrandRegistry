@@ -1,14 +1,12 @@
 "use client";
 
 import { StepIndicator } from "@/app/components/StepIndicator";
-import { useBrands } from "@/context/BrandContext";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function CreateBrandStep1() {
     const router = useRouter();
     const [brandName, setBrandName] = useState("");
-    const { addBrand } = useBrands();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
