@@ -1,22 +1,12 @@
 import { BrandProvider } from "@/context/BrandContext";
 import type { Metadata } from "next";
 import { Inter } from 'next/font/google';
-import localFont from "next/font/local";
 import { Sidebar } from "./components/Slidebar";
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
+
 const inter = Inter({ subsets: ['latin'] })
 
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 
 export const metadata: Metadata = {
   title: "Brand Registration - Brand Management System",

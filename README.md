@@ -1,36 +1,151 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Brand Registration System
 
-## Getting Started
+A modern, efficient brand registration management system built with Next.js 15 and TypeScript. This application provides a complete CRUD interface for managing brand registrations with a sleek, user-friendly design.
 
-First, run the development server:
+![Brand Registration System](https://your-deployment-url.com/screenshot.png)
 
+## 🚀 Live Demo
+
+Access the live application here: [Brand Registration System](https://your-deployment-url.com)
+
+## 🛠 Tech Stack
+
+### Core Technologies
+- [Next.js 15](https://nextjs.org/) - React framework with server-side rendering
+- [TypeScript](https://www.typescriptlang.org/) - Static type checking
+- [React 19](https://reactjs.org/) - UI library
+
+### UI & Styling
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [shadcn/ui](https://ui.shadcn.com/) - Re-usable components
+- [Lucide React](https://lucide.dev/) - Modern icon set
+
+### State Management & Data Persistence
+- React Context API - Application state management
+- Browser's localStorage - Data persistence
+
+### Development Tools
+- ESLint - Code linting
+- Prettier - Code formatting
+
+## 🌟 Features
+
+- **Brand Management Dashboard**
+  - Overview of all registered brands
+  - Quick status indicators
+  - Sorting and filtering capabilities
+
+- **Multi-step Brand Registration**
+  - Step-by-step registration process
+  - Form validation
+  - Progress tracking
+
+- **Brand Editing & Updates**
+  - Real-time updates
+  - Data validation
+  - Status management
+
+- **Responsive Design**
+  - Mobile-first approach
+  - Cross-browser compatibility
+  - Optimized for all screen sizes
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18.17 or later
+- npm or yarn package manager
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/andersondev17/BrandRegistry.git
+cd brand-registration
+```
+
+2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Run the development server
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🏗 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+BRANDREGISTRY/
+├── app/                      # Next.js app directory
+│   ├── components/          # Reusable components
+│   │   ├── ui/             # UI components from shadcn
+│   │   ├── BrandTable.tsx  # Brand listing component
+│   │   ├── Sidebar.tsx     # Navigation sidebar
+│   │   └── StepIndicator   # Registration progress indicator
+│   ├── registro-marca/     # Brand registration routes
+│   └── page.tsx            # Main dashboard page
+├── context/                 # React Context providers
+├── data/                   # Static data and mock data
+├── lib/                    # Utility functions and types
+└── public/                 # Static assets
+```
 
-## Learn More
+## 📖 Implementation Details
 
-To learn more about Next.js, take a look at the following resources:
+### State Management
+The application uses React Context API for state management, with data persistence handled through localStorage. This provides a seamless experience while maintaining data between sessions.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Component Architecture
+Components are built following the atomic design pattern:
+- Atoms: Basic UI components (buttons, inputs)
+- Molecules: Combined components (form fields, cards)
+- Organisms: Complex components (forms, tables)
+- Templates: Page layouts
+- Pages: Complete screens
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Data Flow
+1. Initial data is loaded from localStorage or falls back to hardcoded data
+2. CRUD operations update both the Context state and localStorage
+3. UI components react to state changes in real-time
 
-## Deploy on Vercel
+## 🔒 Security
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Form validation to prevent XSS
+- Data sanitization before storage
+- Secure random ID generation
+- Type checking with TypeScript
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+## 📱 Responsive Design
+
+The application is fully responsive with breakpoints at:
+- Mobile: 320px
+- Tablet: 768px
+- Desktop: 1024px
+- Large Desktop: 1280px
+
+## 🚀 Deployment
+
+The application is deployed on Vercel
+
+
+
+## 👤 Author
+
+Anderson
+
+## 🙏 Acknowledgments
+
+- [Next.js Team](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
