@@ -24,11 +24,9 @@ import {
 import { useBrands } from "@/context/BrandContext";
 import { motion } from "framer-motion";
 import { Edit, PlusCircle, Trash2 } from "lucide-react";
-import { useTheme } from "next-themes";
 import Link from "next/link";
 
 export function BrandTable() {
-    const { theme } = useTheme();
     const { brands, deleteBrand } = useBrands();
     const tableVariants = {
         hidden: { opacity: 0, y: 20 },
@@ -39,19 +37,6 @@ export function BrandTable() {
         }
     };
 
-    const rowVariants = {
-        hidden: { opacity: 0, x: -20 },
-        visible: {
-            opacity: 1,
-            x: 0,
-            transition: { type: "spring", stiffness: 100 }
-        },
-        exit: {
-            opacity: 0,
-            x: 20,
-            transition: { duration: 0.2 }
-        }
-    };
     return (
         <motion.div
             className="w-full space-y-4 p-6 rounded-xl backdrop-blur-sm bg-white/30 dark:bg-black/30"
