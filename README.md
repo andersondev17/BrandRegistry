@@ -6,7 +6,7 @@ A modern, efficient brand registration management system built with Next.js 15 a
 
 ## 🚀 Live Demo
 
-Access the live application here: [Brand Registration System](https://your-deployment-url.com)
+Access the live application here: [Brand Registration System](https://brand-registry.vercel.app/)
 
 ## 🛠 Tech Stack
 
@@ -67,9 +67,7 @@ cd brand-registration
 
 2. Install dependencies
 ```bash
-npm install
-# or
-yarn install
+npm install --legacy-peer-deps
 ```
 
 3. Run the development server
