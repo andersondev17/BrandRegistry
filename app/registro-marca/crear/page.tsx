@@ -1,8 +1,29 @@
+// CreateBrandStep1.tsx
 "use client";
 
 import { StepIndicator } from "@/app/components/StepIndicator";
+import { Input } from "@/app/components/ui/Input";
+import { Button } from "@/app/components/ui/button";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.5,
+            staggerChildren: 0.1
+        }
+    }
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0 }
+};
 
 export default function CreateBrandStep1() {
     const router = useRouter();
@@ -13,57 +34,82 @@ export default function CreateBrandStep1() {
         if (!brandName.trim()) return;
 
         try {
-            // Guardar en sessionStorage
             sessionStorage.setItem("brandRegistration", JSON.stringify({ 
                 name: brandName,
                 status: 'pending' 
             }));
             
-            // Redirección correcta
             router.push("/registro-marca/crear/titular");
         } catch (error) {
             console.error("Error en el proceso:", error);
-            // Aquí podrías mostrar un mensaje de error al usuario
         }
     };
 
     return (
-        <div>
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+        >
             <StepIndicator currentStep={1} />
-            <div className="max-w-xl mx-auto">
-                <h2 className="text-lg font-medium mb-4 italic">Información de la Marca</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-6">
-                        <label htmlFor="brandName" className="block mb-2">
+            
+            <motion.div 
+                className="max-w-xl mx-auto mt-12"
+                variants={itemVariants}
+            >
+                <motion.h2 
+                    className="text-2xl font-medium mb-8 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent"
+                    variants={itemVariants}
+                >
+                    Información de la Marca
+                </motion.h2>
+                
+                <form onSubmit={handleSubmit} className="space-y-8">
+                    <motion.div 
+                        className="relative group"
+                        variants={itemVariants}
+                    >
+                        <label 
+                            htmlFor="brandName" 
+                            className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition-all"
+                        >
                             Marca a Registrar
                         </label>
-                        <input
+                        <Input
                             type="text"
                             id="brandName"
                             value={brandName}
                             onChange={(e) => setBrandName(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full p-3 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
+                            placeholder="Ingrese el nombre de la marca"
                             required
                         />
-                    </div>
+                        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-red-600/20 to-purple-600/20 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity blur-xl" />
+                    </motion.div>
 
-                    <div className="flex justify-between mt-8">
-                        <button
+                    <motion.div 
+                        className="flex justify-between mt-12"
+                        variants={itemVariants}
+                    >
+                        <Button
                             type="button"
                             onClick={() => router.push("/")}
-                            className="px-6 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+                            variant="outline"
+                            className="w-32 group relative overflow-hidden"
                         >
-                            Atrás
-                        </button>
-                        <button
+                            <span className="relative z-10">Atrás</span>
+                            <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-purple-600 opacity-0 group-hover:opacity-10 transition-opacity" />
+                        </Button>
+                        
+                        <Button
                             type="submit"
-                            className="px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                            className="w-32 bg-gradient-to-r from-red-600 to-purple-600 text-white hover:opacity-90 transition-opacity"
                         >
                             Continuar
-                        </button>
-                    </div>
+                        </Button>
+                    </motion.div>
                 </form>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }

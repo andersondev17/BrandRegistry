@@ -69,15 +69,18 @@ export default function CreateBrandSummary() {
 
                 <div className="flex justify-between mt-8">
                     <Button
-                        variant="ghost"
+                        type="button"
+                        variant="outline"
+                        className="w-32 group relative overflow-hidden"
                         onClick={() => router.back()}
-                        className="w-28"
                     >
-                        Atrás
+                        <span className="relative z-10">Atrás</span>
+                        <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-purple-600 opacity-0 group-hover:opacity-10 transition-opacity" />
                     </Button>
                     <Button
                         onClick={handleSubmit}
-                        className="bg-red-600 hover:bg-red-700 w-48"
+                        type="submit"
+                        className="w-32 bg-gradient-to-r p-2 from-red-600 to-purple-600 text-white hover:opacity-90 transition-opacity"
                     >
                         Confirmar Registro
                     </Button>

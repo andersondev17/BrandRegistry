@@ -22,25 +22,67 @@ import {
     TableRow,
 } from "@/app/components/ui/table";
 import { useBrands } from "@/context/BrandContext";
+import { motion } from "framer-motion";
 import { Edit, PlusCircle, Trash2 } from "lucide-react";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 
 export function BrandTable() {
+    const { theme } = useTheme();
     const { brands, deleteBrand } = useBrands();
+    const tableVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { staggerChildren: 0.1 }
+        }
+    };
 
+    const rowVariants = {
+        hidden: { opacity: 0, x: -20 },
+        visible: {
+            opacity: 1,
+            x: 0,
+            transition: { type: "spring", stiffness: 100 }
+        },
+        exit: {
+            opacity: 0,
+            x: 20,
+            transition: { duration: 0.2 }
+        }
+    };
     return (
-        <div className="w-full space-y-4">
-            <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-semibold tracking-tight">Registros de Marca</h2>
-                <Button asChild className="bg-red-600 hover:bg-red-700">
-                    <Link href="/registro-marca/crear">
-                        <PlusCircle className="mr-2 h-4 w-4" />
-                        Nuevo Registro
-                    </Link>
-                </Button>
+        <motion.div
+            className="w-full space-y-4 p-6 rounded-xl backdrop-blur-sm bg-white/30 dark:bg-black/30"
+            initial="hidden"
+            animate="visible"
+            variants={tableVariants}
+        >
+            {/* Header mejorado */}
+            <div className="flex justify-between items-center mb-8">
+                <motion.h2
+                    className="text-3xl font-bold bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                >
+                    Registro de Marcas
+                </motion.h2>
+
+                <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    <Button asChild className="bg-gradient-to-r from-red-600 to-purple-600 hover:opacity-90 transition-all duration-300">
+                        <Link href="/registro-marca/crear" className="flex items-center gap-2">
+                            <PlusCircle className="h-5 w-5" />
+                            Nuevo Registro
+                        </Link>
+                    </Button>
+                </motion.div>
             </div>
 
-            <div className="rounded-md border">
+            <div className="rounded-xl border border-gray-100 dark:border-gray-800 overflow-hidden shadow-lg">
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -54,7 +96,7 @@ export function BrandTable() {
                     <TableBody>
                         {brands.map((brand) => (
                             <TableRow key={brand.id}>
-                                
+
                                 <TableCell className="font-medium">{brand.id || "-"}</TableCell>
                                 <TableCell className="font-medium">{brand.name}</TableCell>
                                 <TableCell>{brand.owner}</TableCell>
@@ -84,10 +126,14 @@ export function BrandTable() {
                                                     </AlertDialogDescription>
                                                 </AlertDialogHeader>
                                                 <AlertDialogFooter>
-                                                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                                    <AlertDialogCancel className="w-32 group relative overflow-hidden display-inline-block">
+                                                        <span className="relative z-10">Cancelar</span>
+                                                        <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-purple-600 opacity-0 group-hover:opacity-10 transition-opacity" />
+                                                    </AlertDialogCancel>
                                                     <AlertDialogAction
                                                         onClick={() => deleteBrand(brand.id)}
-                                                        className="bg-red-600 hover:bg-red-700"
+                                                        className="w-32 bg-gradient-to-r from-red-600 to-purple-600 text-white hover:opacity-90 transition-opacity"
+
                                                     >
                                                         Eliminar
                                                     </AlertDialogAction>
@@ -107,6 +153,6 @@ export function BrandTable() {
                     </TableBody>
                 </Table>
             </div>
-        </div>
+        </motion.div>
     );
 }

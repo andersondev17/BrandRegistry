@@ -1,6 +1,8 @@
 "use client";
 import { Button } from "@/app/components/ui/button";
 import { useBrands } from "@/context/BrandContext";
+import { motion } from "framer-motion";
+import { Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -9,7 +11,10 @@ type PageParams = {
         id: string;
     };
 }
-
+const itemVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0 }
+};
 export default function EditBrand(props: PageParams) {
     const { id } = props.params;
     const { getBrandById, updateBrand } = useBrands();
@@ -43,88 +48,110 @@ export default function EditBrand(props: PageParams) {
     };
 
     return (
-        <div className="max-w-xl mx-auto">
-            <h2 className="text-lg font-medium mb-4">Editar Registro de Marca</h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label htmlFor="name" className="block mb-2">
-                        Marca
-                    </label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={formData.name}
-                        onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
-                        required
-                    />
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-xl mx-auto p-8 pt-16 bg-white/5 backdrop-blur-xl rounded-2xl shadow-xl border border-white/10"
+        >
+            <div className="max-w-xl mx-auto">
+                <div className="flex items-center gap-3 mb-8">
+                    <Sparkles className="w-6 h-6 text-purple animate-pulse" />
+                    <h2 className="text-2xl font-bold bg-gradient-to-r from-purple to-blue-500 bg-clip-text ">
+                        Editar Registro de Marca
+                    </h2>
                 </div>
 
-                <div>
-                    <label htmlFor="owner" className="block mb-2">
-                        Titular
-                    </label>
-                    <input
-                        type="text"
-                        id="owner"
-                        value={formData.owner}
-                        onChange={(e) => setFormData(prev => ({ ...prev, owner: e.target.value }))}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
-                        required
-                    />
-                </div>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <motion.div
 
-                <div>
-                    <label htmlFor="email" className="block mb-2">
-                        Correo Electrónico
-                    </label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={formData.ownerContact.email}
-                        onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            ownerContact: { ...prev.ownerContact, email: e.target.value }
-                        }))}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
-                        required
-                    />
-                </div>
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="group"
+                    >
+                        <label htmlFor="name" className="block text-sm font-medium mb-2 text-gray-200 group-focus-within:text-purple">
+                            Marca
+                        </label>
+                        <input
+                            type="text"
+                            id="name"
+                            value={formData.name}
+                            onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
+                            required
+                        />
+                    </motion.div>
 
-                <div>
-                    <label htmlFor="phone" className="block mb-2">
-                        Teléfono
-                    </label>
-                    <input
-                        type="tel"
-                        id="phone"
-                        value={formData.ownerContact.phone}
-                        onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            ownerContact: { ...prev.ownerContact, phone: e.target.value }
-                        }))}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
-                        required
-                    />
-                </div>
+                    <div>
+                        <label htmlFor="owner" className="block text-sm font-medium mb-2 text-gray-200 group-focus-within:text-purple">
+                            Titular
+                        </label>
+                        <input
+                            type="text"
+                            id="owner"
+                            value={formData.owner}
+                            onChange={(e) => setFormData(prev => ({ ...prev, owner: e.target.value }))}
+                            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
+                            required
+                        />
+                    </div>
 
-                <div className="flex justify-between mt-8">
-                    <Button
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-medium mb-2 text-gray-200 group-focus-within:text-purple">
+                            Correo Electrónico
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={formData.ownerContact.email}
+                            onChange={(e) => setFormData(prev => ({
+                                ...prev,
+                                ownerContact: { ...prev.ownerContact, email: e.target.value }
+                            }))}
+                            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="phone" className="block text-sm font-medium mb-2 text-gray-200 group-focus-within:text-purple">
+                            Teléfono
+                        </label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            value={formData.ownerContact.phone}
+                            onChange={(e) => setFormData(prev => ({
+                                ...prev,
+                                ownerContact: { ...prev.ownerContact, phone: e.target.value }
+                            }))}
+                            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
+                            required
+                        />
+                    </div>
+
+                    <motion.div
+                        className="flex justify-between mt-12"
+                        variants={itemVariants}
+                    >                  
+                  <Button
                         type="button"
-                        variant="ghost"
+                        variant="outline"
+                        className="w-32 group relative overflow-hidden"
                         onClick={() => router.push("/")}
                     >
-                        Cancelar
-                    </Button>
-                    <Button
-                        type="submit"
-                        className="bg-red-600 hover:bg-red-700"
-                    >
-                        Guardar Cambios
-                    </Button>
-                </div>
-            </form>
-        </div>
+                            <span className="relative z-10">Cancelar</span>
+                            <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-purple-600 opacity-0 group-hover:opacity-10 transition-opacity" />
+                        </Button>
+                        <Button
+                            type="submit"
+                            className="w-32 bg-gradient-to-r from-red-600 to-purple-600 text-white hover:opacity-90 transition-opacity"
+                        >
+                            Guardar Cambios
+                        </Button>
+                    </motion.div>
+                </form>
+            </div>
+        </motion.div>
     );
 }
