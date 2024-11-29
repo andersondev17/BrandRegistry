@@ -118,13 +118,12 @@ Abrir navegador en http://localhost:3000
 Comenzar a gestionar registros de marca
 
 👨‍💻 Autor
+- [Portfolio](https://portfolio-deploy-ebon.vercel.app/)
 <div align="center">
-- [Next.js Team](https://nextjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [shadcn/ui](https://ui.shadcn.com/)
 </div>
 
 <div align="center">
 Desarrollado con ❤️ por Anderson López
+
 </div>
 ```
