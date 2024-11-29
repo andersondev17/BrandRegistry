@@ -111,6 +111,7 @@ const ProgressBar = ({ progress }: { progress: number }) => (
     <div 
         className="absolute top-5 left-0 h-1 w-full bg-gradient-to-r from-gray-200/50 to-gray-200/30 rounded-full overflow-hidden"
         role="progressbar"
+        aria-label={`Progreso: ${progress}% completado`}
         aria-valuenow={progress}
         aria-valuemin={0}
         aria-valuemax={100}

@@ -71,6 +71,8 @@ export default function CreateBrandSummary() {
                     <Button
                         type="button"
                         variant="outline"
+                        aria-controls="radix-:rj:"
+                        aria-label="Atrás"
                         className="w-32 group relative overflow-hidden"
                         onClick={() => router.back()}
                     >
@@ -81,6 +83,8 @@ export default function CreateBrandSummary() {
                         onClick={handleSubmit}
                         type="submit"
                         className="w-32 bg-gradient-to-r p-2 from-red-600 to-purple-600 text-white hover:opacity-90 transition-opacity"
+                        aria-label="Confirmar Registro"
+                        aria-controls="radix-:rj:"
                     >
                         Confirmar Registro
                     </Button>

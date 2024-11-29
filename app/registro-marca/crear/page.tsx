@@ -113,6 +113,7 @@ export default function CreateBrandStep1() {
                                     type="text"
                                     id="brandName"
                                     value={brandName}
+                                    aria-label="Ingrese el nombre de la marca"
                                     onChange={(e) => {
                                         setBrandName(e.target.value);
                                         setError("");
@@ -135,6 +136,7 @@ export default function CreateBrandStep1() {
                             >
                                 <Button
                                     type="button"
+                                    aria-label="Atrás"
                                     onClick={() => router.push("/")}
                                     variant="outline"
                                     className="w-32 group relative overflow-hidden"
@@ -147,6 +149,7 @@ export default function CreateBrandStep1() {
                                 <Button
                                     type="submit"
                                     className="w-32 bg-gradient-to-r from-red-600 to-purple-600 text-white hover:opacity-90 transition-opacity"
+                                    aria-label="Continuar"
                                     disabled={isSubmitting}
                                 >
                                     {isSubmitting ? (

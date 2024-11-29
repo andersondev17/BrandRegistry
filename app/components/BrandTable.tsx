@@ -59,7 +59,7 @@ export function BrandTable() {
                     whileTap={{ scale: 0.95 }}
                 >
                     <Button asChild className="bg-gradient-to-r from-red-600 to-purple-600 hover:opacity-90 transition-all duration-300">
-                        <Link href="/registro-marca/crear" className="flex items-center gap-2">
+                        <Link href="/registro-marca/crear" className="flex items-center gap-2" aria-label="Crear marca">
                             <PlusCircle className="h-5 w-5" />
                             Nuevo Registro
                         </Link>
@@ -127,7 +127,7 @@ export function BrandTable() {
                                         </AlertDialog>
 
                                         <Button variant="ghost" size="icon" asChild>
-                                            <Link href={`/registro-marca/editar/${brand.id}`}>
+                                            <Link href={`/registro-marca/editar/${brand.id}`} aria-label="Editar marca">
                                                 <Edit className="h-4 w-4 text-green-500" />
                                             </Link>
                                         </Button>

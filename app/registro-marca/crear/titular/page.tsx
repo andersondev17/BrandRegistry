@@ -120,6 +120,7 @@ export default function CreateBrandStep2() {
                                     type="button"
                                     onClick={() => router.back()}
                                     variant="outline"
+                                    aria-label="Atrás"
                                     className="w-32 relative overflow-hidden group"
                                 >
                                     <span className="relative z-10">Atrás</span>
@@ -139,6 +140,7 @@ export default function CreateBrandStep2() {
                                 <Button
                                     type="submit"
                                     className="w-32 bg-gradient-to-r from-red-600 to-purple-600 text-white"
+                                    aria-label="Continuar"
                                 >
                                     Continuar
                                 </Button>

@@ -43,6 +43,7 @@ const NavItem = ({ href, icon: Icon, label, isCollapsed, brandStatus }: NavItemP
         <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.95 }}>
             <Link
                 href={href}
+                aria-label="Ir a la seccion"
                 className={cn(
                     "flex items-center gap-3 rounded-lg px-4 py-3 text-sm transition-all relative overflow-hidden",
                     isActive 
