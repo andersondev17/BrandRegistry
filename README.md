@@ -1,151 +1,129 @@
-# Brand Registration System
+# 🎯 Brand Registration System
 
 A modern, efficient brand registration management system built with Next.js 15 and TypeScript. This application provides a complete CRUD interface for managing brand registrations with a sleek, user-friendly design.
 
-![Brand Registration System](https://your-deployment-url.com/screenshot.png)
+<div align="center">
 
-## 🚀 Live Demo
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-Access the live application here: [Brand Registration System](https://your-deployment-url.com)
+</div>
 
-## 🛠 Tech Stack
+## 🚀 Demo
 
-### Core Technologies
-- [Next.js 15](https://nextjs.org/) - React framework with server-side rendering
-- [TypeScript](https://www.typescriptlang.org/) - Static type checking
-- [React 19](https://reactjs.org/) - UI library
+- **Live Demo**: [Brand Registry System](https://brand-registry.vercel.app/)
+- **Repository**: [GitHub](https://github.com/andersondev17/BrandRegistry)
 
-### UI & Styling
-- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
-- [shadcn/ui](https://ui.shadcn.com/) - Re-usable components
-- [Lucide React](https://lucide.dev/) - Modern icon set
 
-### State Management & Data Persistence
-- React Context API - Application state management
-- Browser's localStorage - Data persistence
+## 🛠 Technologies
 
-### Development Tools
-- ESLint - Code linting
-- Prettier - Code formatting
-
-## 🌟 Features
-
-- **Brand Management Dashboard**
-  - Overview of all registered brands
-  - Quick status indicators
-  - Sorting and filtering capabilities
-
-- **Multi-step Brand Registration**
-  - Step-by-step registration process
-  - Form validation
-  - Progress tracking
-
-- **Brand Editing & Updates**
-  - Real-time updates
-  - Data validation
-  - Status management
-
-- **Responsive Design**
-  - Mobile-first approach
-  - Cross-browser compatibility
-  - Optimized for all screen sizes
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 18.17 or later
-- npm or yarn package manager
-
-### Installation
-
-1. Clone the repository
-```bash
-git clone https://github.com/andersondev17/BrandRegistry.git
-cd brand-registration
-```
-
-2. Install dependencies
-```bash
-npm install
-# or
-yarn install
-```
-
-3. Run the development server
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## 🏗 Project Structure
+### Core
+```json
+{
+  "next": "15.0.3",
+  "react": "19.0.0-rc-66855b96-20241106",
+  "typescript": "^5.7.2"
+}
+UI/UX
+jsonCopy{
+  "tailwindcss": "^3.4.1",
+  "framer-motion": "^10.16.4",
+  "lucide-react": "^0.263.1",
+  "shadcn/ui": "^0.3.0"
+}
+Utilidades
+jsonCopy{
+  "zod": "^3.22.4",
+  "clsx": "^2.0.0",
+  "tailwind-merge": "^1.14.0"
+}
 
 ```
-BRANDREGISTRY/
-├── app/                      # Next.js app directory
-│   ├── components/          # Reusable components
-│   │   ├── ui/             # UI components from shadcn
-│   │   ├── BrandTable.tsx  # Brand listing component
-│   │   ├── Sidebar.tsx     # Navigation sidebar
-│   │   └── StepIndicator   # Registration progress indicator
-│   ├── registro-marca/     # Brand registration routes
-│   └── page.tsx            # Main dashboard page
-├── context/                 # React Context providers
-├── data/                   # Static data and mock data
-├── lib/                    # Utility functions and types
-└── public/                 # Static assets
+
+## 🏗 Arquitecture
+Design patterns
+### 1. Context Pattern (Estado Global)
+```typescript
+export const BrandProvider = ({ children }: Props) => {
+  const [brands, setBrands] = useState<Brand[]>(initialBrands);
+  // Gestión centralizada del estado
+};
+```
+### 2. Container/Presentational Pattern
+
+Separation of logic and presentation
+Reusable components
+Facilitate testing
+
+### 3. Custom Hooks
+
+```typescript
+export function useBrands() {
+    const context = useContext(BrandContext);
+    if (!context) {
+        throw new Error('useBrands must be used within a BrandProvider');
+    }
+    return context;
+}
+
 ```
 
-## 📖 Implementation Details
+### 1. Validation with Zod
 
-### State Management
-The application uses React Context API for state management, with data persistence handled through localStorage. This provides a seamless experience while maintaining data between sessions.
-
-### Component Architecture
-Components are built following the atomic design pattern:
-- Atoms: Basic UI components (buttons, inputs)
-- Molecules: Combined components (form fields, cards)
-- Organisms: Complex components (forms, tables)
-- Templates: Page layouts
-- Pages: Complete screens
-
+```typescript
+export const brandSchema = z.object({
+    name: z.string()
+        .min(2, {
+            message: "Por favor, ingrese un nombre de marca válido (mínimo 2 caracteres)."
+        })
+        .max(50, {
+            message: "El nombre de la marca no puede exceder los 50 caracteres."
+        })
+        .refine((val) => /^[a-zA-Z0-9\s-]+$/.test(val), {
+            message: "El nombre solo puede contener letras, números, espacios y guiones."
+        }),
+    ownerContact: z.object({
+        email: z.string().email({
+            message: "Por favor, ingrese un correo electrónico válido."
+        }),
+        phone: z.string().regex(
+            /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4}$/,
+            {
+                message: "Por favor, ingrese un número de teléfono válido."
+            }
+        )
+    }).optional()
+});
+```
 ### Data Flow
 1. Initial data is loaded from localStorage or falls back to hardcoded data
 2. CRUD operations update both the Context state and localStorage
 3. UI components react to state changes in real-time
 
-## 🔒 Security
+### 🚀 Clone repository
 
-- Form validation to prevent XSS
-- Data sanitization before storage
-- Secure random ID generation
-- Type checking with TypeScript
+git clone https://github.com/andersondev17/BrandRegistry.git
 
+# Install dependencies
+npm install --legacy-peer-deps
 
+# Development
+npm run dev
 
-## 📱 Responsive Design
+# Production
+npm run build
+npm start
 
-The application is fully responsive with breakpoints at:
-- Mobile: 320px
-- Tablet: 768px
-- Desktop: 1024px
-- Large Desktop: 1280px
+## 👨‍💻 Author
+- [Portfolio](https://portfolio-deploy-ebon.vercel.app/)
+<div align="center">
+</div>
 
-## 🚀 Deployment
+<div align="center">
 
-The application is deployed on Vercel
+Developed with ❤️ by Anderson López
 
-
-
-## 👤 Author
-
-Anderson
-
-## 🙏 Acknowledgments
-
-- [Next.js Team](https://nextjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [shadcn/ui](https://ui.shadcn.com/)
+</div>
+```
