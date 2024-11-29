@@ -1,67 +1,42 @@
-# Sistema de Registro de Marcas - Documentación Técnica
+# 🎯 Sistema de Registro de Marcas 
 
-## 💫 Acceso al Proyecto
+<div align="center">
 
-- **URL de la Aplicación**: [Brand Registry System](https://brand-registry-andersondev17.vercel.app/)
-- **Repositorio**: [GitHub - Brand Registry](https://github.com/andersondev17/BrandRegistry)
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-## 🏗 Patrones de Diseño Implementados
+</div>
 
-### a. Arquitecturales
+## 📋 Contenido
+- [Demo](#-demo)
+- [Características](#-características)
+- [Tecnologías](#-tecnologías)
+- [Arquitectura](#-arquitectura)
+- [Instalación](#-instalación)
+- [Uso](#-uso)
+- [Autor](#-autor)
 
-#### 1. Container/Presentational Pattern
-- Implementado en `BrandTable.tsx` y `DeleteBrandDialog.tsx`
-- Separación clara entre lógica de negocio y presentación
-- Mejora la reutilización y el testing
+## 🚀 Demo
 
-#### 2. Context Pattern (BrandContext)
--The application uses React Context API for state management, with data persistence handled through localStorage. This provides a seamless experience while maintaining data between sessions.
-- Browser's localStorage - Data persistence
-```typescript
-export const BrandProvider = ({ children }: Props) => {
-  const [brands, setBrands] = useState<Brand[]>(initialBrands);
-  // Lógica CRUD centralizada
-};
-#### 3.Custom Hooks Pattern
-typescriptCopyexport const useBrands = () => {
-  const context = useContext(BrandContext);
-  if (!context) {
-    throw new Error("useBrands must be used within BrandProvider");
-  }
-  return context;
-};
+- **Live Demo**: [Brand Registry System](https://brand-registry-andersondev17.vercel.app/)
+- **Repositorio**: [GitHub](https://github.com/andersondev17/BrandRegistry)
 
-Encapsula lógica común
-Mejora la reutilización
-Facilita el testing
+## ✨ Características
 
-###b. Composicionales
-####1. Compound Components
-typescriptCopy// StepIndicator.tsx
-export const StepIndicator: FC<StepIndicatorProps> = {
-  StepCircle,
-  StepLabel,
-  ProgressBar
-};
+- 🔄 CRUD completo de registros de marca
+- 📱 Diseño responsivo
+- 🎨 UI moderna con animaciones fluidas
+- 🔒 Validación de formularios
+- 💾 Persistencia de datos
+- 🌙 Modo oscuro
 
-Mejora la flexibilidad y reutilización
-Mantiene el estado internamente
-API intuitiva
+## 🛠 Tecnologías
 
-### Data Flow
-1. Initial data is loaded from localStorage or falls back to hardcoded data
-2. CRUD operations update both the Context state and localStorage
-3. UI components react to state changes in real-time
-
-####2. Render Props Pattern
-
-Usado en componentes de formulario
-Permite personalización del renderizado
-Mantiene la lógica encapsulada
-
-##📚 Librerías Utilizadas
-Core
-jsonCopy{
+### Core
+```json
+{
   "next": "15.0.3",
   "react": "19.0.0-rc-66855b96-20241106",
   "typescript": "^5.7.2"
@@ -79,44 +54,78 @@ jsonCopy{
   "clsx": "^2.0.0",
   "tailwind-merge": "^1.14.0"
 }
-📁 Estructura del Proyecto y Funcionalidad
-Componentes Principales
-####1. BrandTable.tsx
-typescriptCopyexport function BrandTable() {
-  const { brands } = useBrands();
-  // Implementa vista principal de marcas
-}
 
-Lista de marcas registradas
-Acciones CRUD
-Animaciones y feedback visual
+```
 
-#####2. StepIndicator.tsx
-typescriptCopyexport function StepIndicator({ currentStep }: Props) {
-  // Muestra progreso del registro
-}
+## 🏗 Arquitectura
+Patrones de Diseño
+### 1. Context Pattern (Estado Global)
+typescriptCopyexport const BrandProvider = ({ children }: Props) => {
+  const [brands, setBrands] = useState<Brand[]>(initialBrands);
+  // Gestión centralizada del estado
+};
+### 2. Container/Presentational Pattern
 
-Indicador de progreso visual
-Transiciones animadas
-Responsive design
+Separación de lógica y presentación
+Componentes reutilizables
+Facilita testing
 
-####3. Layout.tsx
-typescriptCopyexport default function RootLayout({ children }: Props) {
-  // Estructura base de la aplicación
-}
+### 3. Custom Hooks
 
-Estructura consistente
-Navegación
-Gestión de temas
+typescriptCopyexport const useBrands = () => {
+  const context = useContext(BrandContext);
+  if (!context) {
+    throw new Error("useBrands must be used within BrandProvider");
+  }
+  return context;
+};
+### Flujo de Datos
+
+Carga inicial desde localStorage
+Operaciones CRUD actualizan Context y localStorage
+Componentes UI reaccionan a cambios de estado
+
+### 📁 Estructura del Proyecto
+Copysrc/
+├── app/                  # Directorio principal
+│   ├── components/      # Componentes reutilizables
+│   ├── layout.tsx      # Layout principal
+│   └── page.tsx        # Página principal
+├── lib/                 # Utilidades
+│   ├── types/         # Types TypeScript
+│   └── utils/         # Funciones auxiliares
+└── context/            # Estado global
+### 🚀 Instalación
+bashCopy# Clonar repositorio
+git clone https://github.com/andersondev17/BrandRegistry.git
+
+# Instalar dependencias
+npm install --legacy-peer-deps
+
 # Desarrollo
-npm run dev --legacy-peer-deps
+npm run dev
 
 # Producción
 npm run build
 npm start
-Esta documentación detalla los aspectos técnicos más relevantes del proyecto, destacando las decisiones de arquitectura y diseño tomadas para crear una aplicación moderna, mantenible y escalable.
+💻 Uso
 
-Anderson
-- Portfolio: [https://portfolio-deploy-ebon.vercel.app/]([[https://portfolio-deploy-ebon.vercel.app/](https://portfolio-deploy-ebon.vercel.app/)])
-- GitHub: [https://github.com/andersondev17]([[https://github.com/yourusername](https://github.com/andersondev17)])
-- LinkedIn: [https://www.linkedin.com/in/andersonlopezmartinez/]([https://www.linkedin.com/in/andersonlopezmartinez/])
+Iniciar servidor de desarrollo
+
+bashCopynpm run dev
+
+Abrir navegador en http://localhost:3000
+Comenzar a gestionar registros de marca
+
+👨‍💻 Autor
+<div align="center">
+Anderson López Martínez
+Show Image
+Show Image
+Show Image
+</div>
+
+<div align="center">
+Desarrollado con ❤️ por Anderson López
+</div>
+```
