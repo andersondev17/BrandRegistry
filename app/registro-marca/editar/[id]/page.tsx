@@ -1,18 +1,17 @@
 "use client";
 import { Button } from "@/app/components/ui/button";
 import { useBrands } from "@/context/BrandContext";
+import { brandSchema } from "@/lib/schemas/brand.schema";
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { ZodError } from "zod";
 
 interface Props {
     readonly params: Promise<{ id: string }>;
 }
-const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0 }
-};
+
 export default function EditBrand({ params }: Props) {
     const router = useRouter();
     const { getBrandById, updateBrand } = useBrands();
@@ -26,6 +25,8 @@ export default function EditBrand({ params }: Props) {
         }
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState("");
+
     useEffect(() => {
         const resolveParams = async () => {
             try {
@@ -51,21 +52,37 @@ export default function EditBrand({ params }: Props) {
         resolveParams();
     }, [params, getBrandById, router]);
 
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!id) return;
 
-        updateBrand(id, formData);
-        router.push("/");
-    };
-    return (
+        setIsSubmitting(true);
+        setError("");
 
+        try {
+            // Validar con el schema de Zod existente
+            await brandSchema.parseAsync(formData);
+
+            // Si la validación pasa, actualizar la marca
+            updateBrand(id, formData)
+            router.push("/");
+        } catch (err) {
+            if (err instanceof ZodError) {
+                // Mostrar el primer error de validación
+                setError(err.errors[0].message);
+            } else {
+                setError("Error al actualizar la marca");
+            }
+            setIsSubmitting(false);
+        }
+    };
+
+    return (
         <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-xl mx-auto p-8 pt-16 m-3 bg-white/5 backdrop-blur-xl rounded-2xl shadow-xl border border-white/10"
-      >
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-xl mx-auto p-8 pt-16 m-3 bg-white/5 backdrop-blur-xl rounded-2xl shadow-xl border border-white/10"
+        >
             <div className="max-w-xl mx-auto">
                 <header className="flex items-center gap-3 mb-8">
                     <Sparkles className="w-6 h-6 text-purple-600 animate-pulse" />
@@ -74,9 +91,18 @@ export default function EditBrand({ params }: Props) {
                     </h1>
                 </header>
 
+                {error && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="mb-4 p-3 rounded bg-red-50 text-red-500 text-sm"
+                    >
+                        {error}
+                    </motion.div>
+                )}
+
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <motion.div
-
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         className="group"
@@ -91,6 +117,7 @@ export default function EditBrand({ params }: Props) {
                             onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
                             required
+                            disabled={isSubmitting}
                         />
                     </motion.div>
 
@@ -105,6 +132,7 @@ export default function EditBrand({ params }: Props) {
                             onChange={(e) => setFormData(prev => ({ ...prev, owner: e.target.value }))}
                             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
                             required
+                            disabled={isSubmitting}
                         />
                     </div>
 
@@ -122,6 +150,7 @@ export default function EditBrand({ params }: Props) {
                             }))}
                             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
                             required
+                            disabled={isSubmitting}
                         />
                     </div>
 
@@ -139,13 +168,11 @@ export default function EditBrand({ params }: Props) {
                             }))}
                             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
                             required
+                            disabled={isSubmitting}
                         />
                     </div>
 
-                    <motion.div
-                        className="flex justify-between mt-12"
-                        variants={itemVariants}
-                    >
+                    <motion.div className="flex justify-between mt-12 gap-4">
                         <Button
                             type="button"
                             variant="outline"
@@ -164,7 +191,7 @@ export default function EditBrand({ params }: Props) {
                             {isSubmitting ? (
                                 <span className="flex items-center gap-2">
                                     <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                    Procesando...
+                                    <span>Procesando...</span>
                                 </span>
                             ) : (
                                 "Guardar Cambios"
