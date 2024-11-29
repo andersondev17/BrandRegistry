@@ -11,22 +11,22 @@ A modern, efficient brand registration management system built with Next.js 15 a
 
 </div>
 
-## 📋 Contenido
+## 📋 Content
 - [Demo](#-demo)
-- [Características](#-características)
-- [Tecnologías](#-tecnologías)
-- [Arquitectura](#-arquitectura)
-- [Instalación](#-instalación)
-- [Uso](#-uso)
-- [Autor](#-autor)
+- [features](#-características)
+- [Tecnologíes](#-tecnologías)
+- [Arquitecture](#-arquitectura)
+- [Installation](#-instalación)
+- [Usage](#-uso)
+- [Author](#-autor)
 
 ## 🚀 Demo
 
 - **Live Demo**: [Brand Registry System](https://brand-registry.vercel.app/)
-- **Repositorio**: [GitHub](https://github.com/andersondev17/BrandRegistry)
+- **Repository**: [GitHub](https://github.com/andersondev17/BrandRegistry)
 
 
-## 🛠 Tecnologías
+## 🛠 Technologies
 
 ### Core
 ```json
@@ -125,7 +125,7 @@ npm run dev
 npm run build
 npm start
 
-👨‍💻 
+👨‍💻 ## Author
 - [Portfolio](https://portfolio-deploy-ebon.vercel.app/)
 <div align="center">
 </div>
