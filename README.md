@@ -119,10 +119,9 @@ Comenzar a gestionar registros de marca
 
 👨‍💻 Autor
 <div align="center">
-Anderson López Martínez
-Show Image
-Show Image
-Show Image
+- [Next.js Team](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
 </div>
 
 <div align="center">
