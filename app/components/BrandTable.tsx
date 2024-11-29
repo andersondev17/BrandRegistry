@@ -88,7 +88,7 @@ export function BrandTable() {
                                 <TableCell>
                                     <Badge
                                         variant={
-                                            brand.status === 'approved' ? 'secondary' :
+                                            brand.status === 'approved' ? 'outline' :
                                                 brand.status === 'pending' ? 'outline' : 'destructive'
                                         }
                                     >

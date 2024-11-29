@@ -1,13 +1,10 @@
 // app/types/next.d.ts
-import 'next';
+import type { ReactNode } from 'react';
 
 declare module 'next' {
     export interface PageProps {
-        params?: {
-            [key: string]: string;
-        };
-        searchParams?: {
-            [key: string]: string | string[] | undefined;
-        };
+        params: Promise<{ [key: string]: string }>;
+        searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+        children?: ReactNode;
     }
 }

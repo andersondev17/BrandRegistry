@@ -6,19 +6,18 @@ import { Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-type PageParams = {
-    params: {
-        id: string;
-    };
+interface Props {
+    params: Promise<{ id: string }>;
+    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 const itemVariants = {
     hidden: { opacity: 0, x: -20 },
     visible: { opacity: 1, x: 0 }
 };
-export default function EditBrand(props: PageParams) {
-    const { id } = props.params;
-    const { getBrandById, updateBrand } = useBrands();
+export default function EditBrand({ params }: Props) {
     const router = useRouter();
+    const { getBrandById, updateBrand } = useBrands();
+    const [id, setId] = useState<string>("");
     const [formData, setFormData] = useState({
         name: "",
         owner: "",
@@ -29,24 +28,38 @@ export default function EditBrand(props: PageParams) {
     });
 
     useEffect(() => {
-        const brand = getBrandById(id);
-        if (!brand) {
-            router.push("/");
-            return;
-        }
-        setFormData({
-            name: brand.name,
-            owner: brand.owner,
-            ownerContact: brand.ownerContact || { email: "", phone: "" }
-        });
-    }, [id, getBrandById, router]);
+        const resolveParams = async () => {
+            try {
+                const resolvedParams = await params;
+                setId(resolvedParams.id);
+                
+                const brand = getBrandById(resolvedParams.id);
+                if (!brand) {
+                    router.push("/");
+                    return;
+                }
+                setFormData({
+                    name: brand.name,
+                    owner: brand.owner,
+                    ownerContact: brand.ownerContact || { email: "", phone: "" }
+                });
+            } catch (error) {
+                console.error("Error resolving params:", error);
+                router.push("/");
+            }
+        };
 
-    const handleSubmit = (e: React.FormEvent) => {
+        resolveParams();
+    }, [params, getBrandById, router]);
+
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        updateBrand(props.params.id, formData);
+        if (!id) return;
+        
+        updateBrand(id, formData);
         router.push("/");
     };
-
     return (
 
         <motion.div
@@ -57,7 +70,7 @@ export default function EditBrand(props: PageParams) {
             <div className="max-w-xl mx-auto">
                 <div className="flex items-center gap-3 mb-8">
                     <Sparkles className="w-6 h-6 text-purple animate-pulse" />
-                    <h2 className="text-2xl font-bold bg-gradient-to-r from-purple to-blue-500 bg-clip-text ">
+                    <h2 className="text-3xl font-semibold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-purple-600">
                         Editar Registro de Marca
                     </h2>
                 </div>
@@ -133,13 +146,13 @@ export default function EditBrand(props: PageParams) {
                     <motion.div
                         className="flex justify-between mt-12"
                         variants={itemVariants}
-                    >                  
-                  <Button
-                        type="button"
-                        variant="outline"
-                        className="w-32 group relative overflow-hidden"
-                        onClick={() => router.push("/")}
                     >
+                        <Button
+                            type="button"
+                            variant="outline"
+                            className="w-32 group relative overflow-hidden"
+                            onClick={() => router.push("/")}
+                        >
                             <span className="relative z-10">Cancelar</span>
                             <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-purple-600 opacity-0 group-hover:opacity-10 transition-opacity" />
                         </Button>

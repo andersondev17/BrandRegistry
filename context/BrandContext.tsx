@@ -3,7 +3,6 @@ import { initialBrands } from '@/data/brands';
 import { Brand, BrandFormData } from '@/lib/types';
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 
-// Storage key constant
 const STORAGE_KEY = 'brandRegistry';
 
 interface BrandContextType {
@@ -17,17 +16,17 @@ interface BrandContextType {
 const BrandContext = createContext<BrandContextType | undefined>(undefined);
 
 export function BrandProvider({ children }: Readonly<{ children: ReactNode }>) {
-    const [brands, setBrands] = useState<Brand[]>([...initialBrands]);
+    const [brands, setBrands] = useState<Brand[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    // load from local storage
+    // Cargar datos y establecer el siguiente ID
     useEffect(() => {
         const loadBrands = async () => {
             try {
                 const stored = localStorage.getItem(STORAGE_KEY);
                 if (stored) {
                     const parsedBrands = JSON.parse(stored);
-                    // Convert string dates back to Date objects
+                    // Convertir strings de fecha a objetos Date
                     const brandsWithDates = parsedBrands.map((brand: any) => ({
                         ...brand,
                         createdAt: new Date(brand.createdAt),
@@ -35,8 +34,6 @@ export function BrandProvider({ children }: Readonly<{ children: ReactNode }>) {
                     }));
                     setBrands(brandsWithDates);
                 } else {
-                    // Import initial data dynamically to avoid SSR issues
-                    const { initialBrands } = await import('@/data/brands');
                     setBrands([...initialBrands]);
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(initialBrands));
                 }
@@ -50,22 +47,32 @@ export function BrandProvider({ children }: Readonly<{ children: ReactNode }>) {
         loadBrands();
     }, []);
 
-    // Save to localStorage whenever brands change
+    // Persistir cambios
     useEffect(() => {
         if (!isLoading) {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(brands));
         }
     }, [brands, isLoading]);
 
+    const getNextId = (currentBrands: Brand[]): string => {
+        const maxId = currentBrands.reduce((max, brand) => {
+            const currentId = parseInt(brand.id);
+            return currentId > max ? currentId : max;
+        }, 0);
+        return (maxId + 1).toString();
+    };
+
     const addBrand = (data: BrandFormData) => {
-        const newBrand: Brand = {
-            id: crypto.randomUUID(),
-            ...data,
-            status: 'pending',
-            createdAt: new Date(),
-            updatedAt: new Date()
-        };
-        setBrands(prev => [...prev, newBrand]);
+        setBrands(prev => {
+            const newBrand: Brand = {
+                id: getNextId(prev),
+                ...data,
+                status: 'pending',
+                createdAt: new Date(),
+                updatedAt: new Date()
+            };
+            return [...prev, newBrand];
+        });
     };
 
     const updateBrand = (id: string, data: Partial<Brand>) => {
@@ -84,14 +91,16 @@ export function BrandProvider({ children }: Readonly<{ children: ReactNode }>) {
         return brands.find(brand => brand.id === id);
     };
 
+    const value = useMemo(() => ({
+        brands,
+        addBrand,
+        updateBrand,
+        deleteBrand,
+        getBrandById
+    }), [brands]);
+
     return (
-        <BrandContext.Provider value={useMemo(() => ({
-            brands,
-            addBrand,
-            updateBrand,
-            deleteBrand,
-            getBrandById
-        }), [brands, addBrand, updateBrand, deleteBrand, getBrandById])}>
+        <BrandContext.Provider value={value}>
             {children}
         </BrandContext.Provider>
     );
@@ -99,7 +108,7 @@ export function BrandProvider({ children }: Readonly<{ children: ReactNode }>) {
 
 export function useBrands() {
     const context = useContext(BrandContext);
-    if (context === undefined) {
+    if (!context) {
         throw new Error('useBrands must be used within a BrandProvider');
     }
     return context;
