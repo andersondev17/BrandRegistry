@@ -116,7 +116,7 @@ npm run dev
 npm run build
 npm start
 
-👨‍💻 ## Author
+## 👨‍💻 Author
 - [Portfolio](https://portfolio-deploy-ebon.vercel.app/)
 <div align="center">
 </div>
