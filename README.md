@@ -1,4 +1,4 @@
-# 🎯 Sistema de Registro de Marcas 
+# 🎯 Brand Registration System
 
 A modern, efficient brand registration management system built with Next.js 15 and TypeScript. This application provides a complete CRUD interface for managing brand registrations with a sleek, user-friendly design.
 
@@ -51,7 +51,7 @@ jsonCopy{
 
 ```
 
-## 🏗 Arquitectura
+## 🏗 Arquitecture
 Design patterns
 ### 1. Context Pattern (Estado Global)
 ```typescript
