@@ -2,8 +2,6 @@
 
 A modern, brand registration management system built with Next.js 15 and TypeScript. This application showcases advanced React patterns, modern UI/UX principles, and best practices in frontend development.
 
-![Brand Registration System Demo](public/demo.gif)
-
 ## ✨ Key Features
 
 - **🎨 Modern UI/UX**
