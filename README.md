@@ -1,5 +1,7 @@
 # 🎯 Sistema de Registro de Marcas 
 
+A modern, efficient brand registration management system built with Next.js 15 and TypeScript. This application provides a complete CRUD interface for managing brand registrations with a sleek, user-friendly design.
+
 <div align="center">
 
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
@@ -23,14 +25,6 @@
 - **Live Demo**: [Brand Registry System](https://brand-registry.vercel.app/)
 - **Repositorio**: [GitHub](https://github.com/andersondev17/BrandRegistry)
 
-## ✨ Características
-
-- 🔄 CRUD completo de registros de marca
-- 📱 Diseño responsivo
-- 🎨 UI moderna con animaciones fluidas
-- 🔒 Validación de formularios
-- 💾 Persistencia de datos
-- 🌙 Modo oscuro
 
 ## 🛠 Tecnologías
 
@@ -58,72 +52,87 @@ jsonCopy{
 ```
 
 ## 🏗 Arquitectura
-Patrones de Diseño
+Design patterns
 ### 1. Context Pattern (Estado Global)
-typescriptCopyexport const BrandProvider = ({ children }: Props) => {
+```typescript
+export const BrandProvider = ({ children }: Props) => {
   const [brands, setBrands] = useState<Brand[]>(initialBrands);
   // Gestión centralizada del estado
 };
+```
 ### 2. Container/Presentational Pattern
 
-Separación de lógica y presentación
-Componentes reutilizables
-Facilita testing
+Separation of logic and presentation
+Reusable components
+Facilitate testing
 
 ### 3. Custom Hooks
 
-typescriptCopyexport const useBrands = () => {
-  const context = useContext(BrandContext);
-  if (!context) {
-    throw new Error("useBrands must be used within BrandProvider");
-  }
-  return context;
-};
-### Flujo de Datos
+```typescript
+export function useBrands() {
+    const context = useContext(BrandContext);
+    if (!context) {
+        throw new Error('useBrands must be used within a BrandProvider');
+    }
+    return context;
+}
 
-Carga inicial desde localStorage
-Operaciones CRUD actualizan Context y localStorage
-Componentes UI reaccionan a cambios de estado
+```
 
-### 📁 Estructura del Proyecto
-Copysrc/
-├── app/                  # Directorio principal
-│   ├── components/      # Componentes reutilizables
-│   ├── layout.tsx      # Layout principal
-│   └── page.tsx        # Página principal
-├── lib/                 # Utilidades
-│   ├── types/         # Types TypeScript
-│   └── utils/         # Funciones auxiliares
-└── context/            # Estado global
-### 🚀 Instalación
-bashCopy# Clonar repositorio
+### 1. Validation with Zod
+
+```typescript
+export const brandSchema = z.object({
+    name: z.string()
+        .min(2, {
+            message: "Por favor, ingrese un nombre de marca válido (mínimo 2 caracteres)."
+        })
+        .max(50, {
+            message: "El nombre de la marca no puede exceder los 50 caracteres."
+        })
+        .refine((val) => /^[a-zA-Z0-9\s-]+$/.test(val), {
+            message: "El nombre solo puede contener letras, números, espacios y guiones."
+        }),
+    ownerContact: z.object({
+        email: z.string().email({
+            message: "Por favor, ingrese un correo electrónico válido."
+        }),
+        phone: z.string().regex(
+            /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4}$/,
+            {
+                message: "Por favor, ingrese un número de teléfono válido."
+            }
+        )
+    }).optional()
+});
+```
+### Data Flow
+1. Initial data is loaded from localStorage or falls back to hardcoded data
+2. CRUD operations update both the Context state and localStorage
+3. UI components react to state changes in real-time
+
+### 🚀 Clone repository
+
 git clone https://github.com/andersondev17/BrandRegistry.git
 
-# Instalar dependencias
+# Install dependencies
 npm install --legacy-peer-deps
 
-# Desarrollo
+# Development
 npm run dev
 
-# Producción
+# Production
 npm run build
 npm start
-💻 Uso
 
-Iniciar servidor de desarrollo
-
-bashCopynpm run dev
-
-Abrir navegador en http://localhost:3000
-Comenzar a gestionar registros de marca
-
-👨‍💻 Autor
+👨‍💻 
 - [Portfolio](https://portfolio-deploy-ebon.vercel.app/)
 <div align="center">
 </div>
 
 <div align="center">
-Desarrollado con ❤️ por Anderson López
+
+Developed with ❤️ by Anderson López
 
 </div>
 ```
