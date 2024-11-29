@@ -16,7 +16,7 @@ export const brandSchema = z.object({
             message: "Por favor, ingrese un correo electrónico válido."
         }),
         phone: z.string().regex(
-            /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4}$/,
+            /^[+]?[(]?\d{3}[)]?[-\s.]?\d{3}[-\s.]?\d{4}$/,
             {
                 message: "Por favor, ingrese un número de teléfono válido."
             }

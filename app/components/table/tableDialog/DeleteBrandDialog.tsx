@@ -14,7 +14,7 @@ import { useBrands } from "@/context/BrandContext";
 import { Trash2 } from "lucide-react";
 
 interface DeleteBrandDialogProps {
-    brandId: string;
+    readonly brandId: string;
 }
 
 export function DeleteBrandDialog({ brandId }: DeleteBrandDialogProps) {

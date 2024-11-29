@@ -50,7 +50,7 @@ export default function CreateBrandStep1() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (isSubmitting) return;
-        
+
         setIsSubmitting(true);
         if (!validateForm()) {
             setIsSubmitting(false);
@@ -118,9 +118,8 @@ export default function CreateBrandStep1() {
                                         setBrandName(e.target.value);
                                         setError("");
                                     }}
-                                    className={`w-full p-3 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border transition-all ${
-                                        error ? 'border-red-500 ring-red-500' : 'border-gray-200 dark:border-gray-700'
-                                    }`}
+                                    className={`w-full p-3 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border transition-all ${error ? 'border-red-500 ring-red-500' : 'border-gray-200 dark:border-gray-700'
+                                        }`}
                                     placeholder="Ingrese el nombre de la marca"
                                     disabled={isSubmitting}
                                     required
@@ -155,6 +154,7 @@ export default function CreateBrandStep1() {
                                     {isSubmitting ? (
                                         <span className="flex items-center gap-2">
                                             <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                            {" "}
                                             Procesando...
                                         </span>
                                     ) : (

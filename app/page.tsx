@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BrandTable } from "./components/BrandTable";
+import { BrandTable } from "./components/table/brandTable";
 
 /**
  * Configuración de animaciones para la página

@@ -10,9 +10,6 @@ import { Edit, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { DeleteBrandDialog } from "./tableDialog/DeleteBrandDialog";
 
-/**
- * Configuración de las animaciones
- */
 const animations = {
     container: {
         hidden: { opacity: 0, y: 20 },
@@ -28,9 +25,30 @@ const animations = {
     }
 };
 
-/**
- * Componentes internos para la tabla
- */
+interface BadgeConfig {
+    variant: "default" | "secondary" | "destructive" | "outline";
+    text: string;
+    className: string;
+}
+
+const statusConfig: Record<BrandStatus, BadgeConfig> = {
+    approved: {
+        variant: "default",
+        text: "Aprobado",
+        className: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-800"
+    },
+    pending: {
+        variant: "secondary",
+        text: "Pendiente",
+        className: "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950 dark:text-amber-400 dark:border-amber-800"
+    },
+    rejected: {
+        variant: "destructive",
+        text: "Rechazado",
+        className: "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950 dark:text-rose-400 dark:border-rose-800"
+    }
+};
+
 const TableTitle = () => (
     <motion.h2
         className="text-3xl font-bold bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent"
@@ -55,26 +73,18 @@ const CreateBrandButton = () => (
     </motion.div>
 );
 
-//Helper para obtener la variante del Badge según el estado
-const getStatusBadgeVariant = (status: BrandStatus): "secondary" | "outline" | "destructive" => {
-    const variants = {
-        approved: 'secondary',
-        pending: 'outline',
-        rejected: 'destructive'
-    } as const;
-    
-    return variants[status] || 'outline';
+const StatusBadge = ({ status }: { status: BrandStatus }) => {
+    const config = statusConfig[status];
+    return (
+        <Badge
+            variant={config.variant}
+            className={`transition-all duration-200 ${config.className}`}
+        >
+            {config.text}
+        </Badge>
+    );
 };
-const getStatusText = (status: BrandStatus): string => {// Helper para obtener el texto de estado formateado
-    const statusTexts = {
-        approved: 'Aprobado',
-        pending: 'Pendiente',
-        rejected: 'Rechazado'
-    };
-    
-    return statusTexts[status] || status;
-};
-//Componente para las acciones de cada marca
+
 const BrandActions = ({ brand }: { brand: Brand }) => (
     <div className="flex justify-end gap-2">
         <DeleteBrandDialog brandId={brand.id} />
@@ -86,15 +96,6 @@ const BrandActions = ({ brand }: { brand: Brand }) => (
     </div>
 );
 
-/**
- * BrandTable - Componente principal que muestra la tabla de marcas registradas
- * 
- * @component
- * @example
- * ```tsx
- * <BrandTable />
- * ```
- */
 export function BrandTable() {
     const { brands } = useBrands();
 
@@ -128,12 +129,7 @@ export function BrandTable() {
                                 <TableCell className="font-medium">{brand.name}</TableCell>
                                 <TableCell>{brand.owner}</TableCell>
                                 <TableCell>
-                                    <Badge
-                                        variant={getStatusBadgeVariant(brand.status)}
-                                        className="transition-all duration-200"
-                                    >
-                                        {getStatusText(brand.status)}
-                                    </Badge>
+                                    <StatusBadge status={brand.status} />
                                 </TableCell>
                                 <TableCell className="text-right">
                                     <BrandActions brand={brand} />

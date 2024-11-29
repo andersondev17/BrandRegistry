@@ -11,9 +11,9 @@ const STEP_LABELS = ["Marca", "Titular", "Resumen"] as const;
  */
 interface StepIndicatorProps {
     /** Paso actual en el proceso */
-    currentStep: number;
+    readonly currentStep: number;
     /** Número total de pasos (default: 3) */
-    totalSteps?: number;
+    readonly totalSteps?: number;
 }
 
 interface StepConfig {
@@ -36,7 +36,7 @@ const animations = {
     },
     step: {
         inactive: { scale: 0.95, opacity: 0.7 },
-        active: { 
+        active: {
             scale: 1,
             opacity: 1,
             transition: { type: "spring", stiffness: 300, damping: 20 }
@@ -71,9 +71,9 @@ const StepCircle = ({ config }: { config: StepConfig }) => {
                     config.isCurrent && "animate-pulse"
                 )}
             />
-            
+
             {/* Círculo principal */}
-            <div
+            <output
                 className={cn(
                     "relative z-10 flex h-10 w-10 items-center justify-center rounded-full border-2",
                     "transition-all duration-500 ease-out",
@@ -81,7 +81,6 @@ const StepCircle = ({ config }: { config: StepConfig }) => {
                     config.isCurrent && "border-red-600 bg-white shadow-lg",
                     !config.isCompleted && !config.isCurrent && "border-gray-300 bg-white"
                 )}
-                role="status"
                 aria-current={config.isCurrent ? "step" : undefined}
             >
                 <AnimatePresence mode="wait">
@@ -102,31 +101,52 @@ const StepCircle = ({ config }: { config: StepConfig }) => {
                         </span>
                     )}
                 </AnimatePresence>
-            </div>
+            </output>
         </div>
     );
 };
 
 const ProgressBar = ({ progress }: { progress: number }) => (
-    <div 
-        className="absolute top-5 left-0 h-1 w-full bg-gradient-to-r from-gray-200/50 to-gray-200/30 rounded-full overflow-hidden"
-        role="progressbar"
+    <progress
+        className="absolute top-5 left-0 h-1 w-full bg-gradient-to-r from-gray-100/20 to-gray-100/10 
+      rounded-full overflow-hidden backdrop-blur-sm"
+        value={progress}
         aria-label={`Progreso: ${progress}% completado`}
         aria-valuenow={progress}
         aria-valuemin={0}
         aria-valuemax={100}
     >
         <motion.div
-            className="h-full bg-gradient-to-r from-red-600 via-red-500 to-purple-600"
-            variants={animations.progress}
-            initial="initial"
-            animate="animate"
-            custom={progress}
+            className="relative h-full bg-gradient-to-r from-red-600 via-purple-500 to-purple-600"
+            initial={{ width: "0%" }}
+            animate={{
+                width: `${progress}%`,
+                transition: {
+                    duration: 0.8,
+                    ease: [0.4, 0, 0.2, 1]
+                }
+            }}
         >
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent)] animate-shine" />
+            {/* Efecto de brillo animado */}
+            <motion.div
+                className="absolute inset-0 w-full h-full"
+                initial={{ x: '-100%' }}
+                animate={{
+                    x: '100%',
+                    transition: {
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "linear"
+                    }
+                }}
+                style={{
+                    background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)'
+                }}
+            />
         </motion.div>
-    </div>
+    </progress>
 );
+
 
 /**
  * StepIndicator - Componente que muestra el progreso del registro de marca
@@ -136,23 +156,23 @@ export function StepIndicator({ currentStep, totalSteps = 3 }: StepIndicatorProp
     const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
 
     return (
-        <nav 
+        <nav
             className="relative flex justify-center mb-8 px-4"
             aria-label="Progreso del registro"
         >
             <ProgressBar progress={progress} />
-            
+
             <div className="relative flex w-full max-w-2xl justify-between">
                 {steps.map((step) => (
-                    <motion.div 
-                        key={step.number} 
+                    <motion.div
+                        key={step.number}
                         className="flex flex-col items-center group"
                         variants={animations.step}
                         initial="inactive"
                         animate={step.isCurrent ? "active" : step.isCompleted ? "completed" : "inactive"}
                     >
                         <StepCircle config={step} />
-                        <motion.span 
+                        <motion.span
                             className={cn(
                                 "mt-2 text-xs font-medium transition-colors",
                                 step.isCurrent ? "text-red-600" : "text-gray-500 group-hover:text-gray-700"

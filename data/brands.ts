@@ -22,5 +22,17 @@ export const initialBrands = [
             email: 'contact@adidas.com',
             phone: '+1 234-567-8901'
         }
+    },
+    {
+        id: '3',
+        name: 'Puma',
+        owner: 'Puma Inc.',
+        status: 'rejected' as const,
+        createdAt: new Date('2024-01-03'),
+        updatedAt: new Date('2024-01-03'),
+        ownerContact: {
+            email: 'contact@puma.com',
+            phone: '+1 234-567-8902'
+        }
     }
 ];

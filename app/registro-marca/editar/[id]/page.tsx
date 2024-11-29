@@ -7,8 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface Props {
-    params: Promise<{ id: string }>;
-    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+    readonly params: Promise<{ id: string }>;
 }
 const itemVariants = {
     hidden: { opacity: 0, x: -20 },
@@ -26,13 +25,13 @@ export default function EditBrand({ params }: Props) {
             phone: ""
         }
     });
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
     useEffect(() => {
         const resolveParams = async () => {
             try {
                 const resolvedParams = await params;
                 setId(resolvedParams.id);
-                
+
                 const brand = getBrandById(resolvedParams.id);
                 if (!brand) {
                     router.push("/");
@@ -56,24 +55,24 @@ export default function EditBrand({ params }: Props) {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!id) return;
-        
+
         updateBrand(id, formData);
         router.push("/");
     };
     return (
 
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-xl mx-auto p-8 pt-16 bg-white/5 backdrop-blur-xl rounded-2xl shadow-xl border border-white/10"
-        >
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-xl mx-auto p-8 pt-16 m-3 bg-white/5 backdrop-blur-xl rounded-2xl shadow-xl border border-white/10"
+      >
             <div className="max-w-xl mx-auto">
-                <div className="flex items-center gap-3 mb-8">
-                    <Sparkles className="w-6 h-6 text-purple animate-pulse" />
-                    <h2 className="text-3xl font-semibold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-purple-600">
+                <header className="flex items-center gap-3 mb-8">
+                    <Sparkles className="w-6 h-6 text-purple-600 animate-pulse" />
+                    <h1 className="text-3xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-purple-600">
                         Editar Registro de Marca
-                    </h2>
-                </div>
+                    </h1>
+                </header>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <motion.div
@@ -82,7 +81,7 @@ export default function EditBrand({ params }: Props) {
                         animate={{ opacity: 1 }}
                         className="group"
                     >
-                        <label htmlFor="name" className="block text-sm font-medium mb-2 text-gray-200 group-focus-within:text-purple">
+                        <label htmlFor="name" className="block text-sm font-medium mb-2 text-gray-500 group-focus-within:text-purple">
                             Marca
                         </label>
                         <input
@@ -96,7 +95,7 @@ export default function EditBrand({ params }: Props) {
                     </motion.div>
 
                     <div>
-                        <label htmlFor="owner" className="block text-sm font-medium mb-2 text-gray-200 group-focus-within:text-purple">
+                        <label htmlFor="owner" className="block text-sm font-medium mb-2 text-gray-500 group-focus-within:text-purple">
                             Titular
                         </label>
                         <input
@@ -110,7 +109,7 @@ export default function EditBrand({ params }: Props) {
                     </div>
 
                     <div>
-                        <label htmlFor="email" className="block text-sm font-medium mb-2 text-gray-200 group-focus-within:text-purple">
+                        <label htmlFor="email" className="block text-sm font-medium mb-2 text-gray-500 group-focus-within:text-purple">
                             Correo Electrónico
                         </label>
                         <input
@@ -127,7 +126,7 @@ export default function EditBrand({ params }: Props) {
                     </div>
 
                     <div>
-                        <label htmlFor="phone" className="block text-sm font-medium mb-2 text-gray-200 group-focus-within:text-purple">
+                        <label htmlFor="phone" className="block text-sm font-medium mb-2 text-gray-500 group-focus-within:text-purple">
                             Teléfono
                         </label>
                         <input
@@ -150,17 +149,26 @@ export default function EditBrand({ params }: Props) {
                         <Button
                             type="button"
                             variant="outline"
-                            className="w-32 group relative overflow-hidden"
+                            className="flex-1 group relative overflow-hidden"
                             onClick={() => router.push("/")}
+                            disabled={isSubmitting}
                         >
                             <span className="relative z-10">Cancelar</span>
                             <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-purple-600 opacity-0 group-hover:opacity-10 transition-opacity" />
                         </Button>
                         <Button
                             type="submit"
-                            className="w-32 bg-gradient-to-r from-red-600 to-purple-600 text-white hover:opacity-90 transition-opacity"
+                            className="flex-1 bg-gradient-to-r from-red-600 to-purple-600 text-white hover:opacity-90 transition-opacity"
+                            disabled={isSubmitting}
                         >
-                            Guardar Cambios
+                            {isSubmitting ? (
+                                <span className="flex items-center gap-2">
+                                    <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                    Procesando...
+                                </span>
+                            ) : (
+                                "Guardar Cambios"
+                            )}
                         </Button>
                     </motion.div>
                 </form>
