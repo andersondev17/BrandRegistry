@@ -20,7 +20,7 @@
 
 ## 🚀 Demo
 
-- **Live Demo**: [Brand Registry System](https://brand-registry-andersondev17.vercel.app/)
+- **Live Demo**: [Brand Registry System](https://brand-registry.vercel.app/)
 - **Repositorio**: [GitHub](https://github.com/andersondev17/BrandRegistry)
 
 ## ✨ Características
