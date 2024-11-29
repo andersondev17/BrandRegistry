@@ -11,15 +11,6 @@ A modern, efficient brand registration management system built with Next.js 15 a
 
 </div>
 
-## 📋 Content
-- [Demo](#-demo)
-- [features](#-características)
-- [Tecnologíes](#-tecnologías)
-- [Arquitecture](#-arquitectura)
-- [Installation](#-instalación)
-- [Usage](#-uso)
-- [Author](#-autor)
-
 ## 🚀 Demo
 
 - **Live Demo**: [Brand Registry System](https://brand-registry.vercel.app/)
