@@ -1,31 +1,28 @@
-Sistema de Registro de Marcas - Documentación Técnica
-1. Acceso al Proyecto
+# Sistema de Registro de Marcas - Documentación Técnica
 
-URL de la Aplicación: Brand Registry System
-Repositorio: GitHub - Brand Registry
+## 💫 Acceso al Proyecto
 
-2. Patrones de Diseño Implementados
-a. Arquitecturales
+- **URL de la Aplicación**: [Brand Registry System](https://brand-registry-andersondev17.vercel.app/)
+- **Repositorio**: [GitHub - Brand Registry](https://github.com/andersondev17/BrandRegistry)
 
-Container/Presentational Pattern
+## 🏗 Patrones de Diseño Implementados
 
-Implementado en BrandTable.tsx y DeleteBrandDialog.tsx
-Separación clara entre lógica de negocio y presentación
-Mejora la reutilización y el testing
+### a. Arquitecturales
 
+#### 1. Container/Presentational Pattern
+- Implementado en `BrandTable.tsx` y `DeleteBrandDialog.tsx`
+- Separación clara entre lógica de negocio y presentación
+- Mejora la reutilización y el testing
 
-Context Pattern (BrandContext)
-typescriptCopyexport const BrandProvider = ({ children }: Props) => {
+#### 2. Context Pattern (BrandContext)
+-The application uses React Context API for state management, with data persistence handled through localStorage. This provides a seamless experience while maintaining data between sessions.
+- Browser's localStorage - Data persistence
+```typescript
+export const BrandProvider = ({ children }: Props) => {
   const [brands, setBrands] = useState<Brand[]>(initialBrands);
   // Lógica CRUD centralizada
 };
-
-Gestión centralizada del estado
-Reduce el prop drilling
-Facilita el testing y mantenimiento
-
-
-Custom Hooks Pattern
+#### 3.Custom Hooks Pattern
 typescriptCopyexport const useBrands = () => {
   const context = useContext(BrandContext);
   if (!context) {
@@ -38,11 +35,8 @@ Encapsula lógica común
 Mejora la reutilización
 Facilita el testing
 
-
-
-b. Composicionales
-
-Compound Components
+###b. Composicionales
+####1. Compound Components
 typescriptCopy// StepIndicator.tsx
 export const StepIndicator: FC<StepIndicatorProps> = {
   StepCircle,
@@ -54,16 +48,18 @@ Mejora la flexibilidad y reutilización
 Mantiene el estado internamente
 API intuitiva
 
+### Data Flow
+1. Initial data is loaded from localStorage or falls back to hardcoded data
+2. CRUD operations update both the Context state and localStorage
+3. UI components react to state changes in real-time
 
-Render Props Pattern
+####2. Render Props Pattern
 
 Usado en componentes de formulario
 Permite personalización del renderizado
 Mantiene la lógica encapsulada
 
-
-
-3. Librerías Utilizadas
+##📚 Librerías Utilizadas
 Core
 jsonCopy{
   "next": "15.0.3",
@@ -83,11 +79,9 @@ jsonCopy{
   "clsx": "^2.0.0",
   "tailwind-merge": "^1.14.0"
 }
-4. Estructura del Proyecto y Funcionalidad
+📁 Estructura del Proyecto y Funcionalidad
 Componentes Principales
-
-BrandTable.tsx
-
+####1. BrandTable.tsx
 typescriptCopyexport function BrandTable() {
   const { brands } = useBrands();
   // Implementa vista principal de marcas
@@ -97,9 +91,7 @@ Lista de marcas registradas
 Acciones CRUD
 Animaciones y feedback visual
 
-
-StepIndicator.tsx
-
+#####2. StepIndicator.tsx
 typescriptCopyexport function StepIndicator({ currentStep }: Props) {
   // Muestra progreso del registro
 }
@@ -108,9 +100,7 @@ Indicador de progreso visual
 Transiciones animadas
 Responsive design
 
-
-Layout.tsx
-
+####3. Layout.tsx
 typescriptCopyexport default function RootLayout({ children }: Props) {
   // Estructura base de la aplicación
 }
@@ -118,70 +108,8 @@ typescriptCopyexport default function RootLayout({ children }: Props) {
 Estructura consistente
 Navegación
 Gestión de temas
-
-Archivos de Configuración
-
-tailwind.config.ts
-
-typescriptCopyexport default {
-  content: [/* ... */],
-  theme: {
-    extend: {/* ... */}
-  }
-} satisfies Config;
-
-Configuración de estilos
-Personalización de tema
-Optimización de CSS
-
-
-next.config.ts
-
-typescriptCopyconst nextConfig: NextConfig = {
-  // Configuración de Next.js
-};
-
-Optimizaciones de build
-Configuración de rutas
-Gestión de imágenes
-
-5. Características Técnicas Destacadas
-
-Optimización de Rendimiento
-
-
-Code splitting automático
-Lazy loading de componentes
-Memoización de componentes costosos
-
-
-SEO y Metadatos
-
-typescriptCopyexport const metadata: Metadata = {
-  title: "Brand Registration System",
-  description: "Efficient brand registration management"
-};
-
-Accesibilidad
-
-
-Implementación de ARIA
-Soporte de teclado
-Alto contraste
-
-
-Validación de Datos
-
-typescriptCopyconst brandSchema = z.object({
-  name: z.string().min(2),
-  // ...
-});
-6. Instrucciones de Uso
-bashCopy# Instalación
-npm install
-
 # Desarrollo
-npm run dev
+npm run dev --legacy-peer-deps
 
 # Producción
 npm run build
