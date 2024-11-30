@@ -30,13 +30,15 @@ const animations = {
 
 // Añadimos TableTitle que faltaba
 const TableTitle = () => (
-    <motion.h2
-        className="text-3xl font-bold bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent"
+    <motion.div
+        className="flex items-center gap-3"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
     >
-        Registro de Marcas
-    </motion.h2>
+        <h2 className="text-5xl font-bold bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
+            Registro de Marcas
+        </h2>
+    </motion.div>
 );
 
 // Añadimos CreateBrandButton que faltaba
@@ -72,8 +74,8 @@ const ResponsiveTable = ({ brands }: { brands: Brand[] }) => {
                 >
                     <div className="flex justify-between items-start mb-2">
                         <div>
-                            <h3 className="font-medium text-lg">{brand.name}</h3>
-                            <p className="text-sm text-gray-500">{brand.owner}</p>
+                            <h3 className="font-medium text-lg font-poppins font-semibold">{brand.name}</h3>
+                            <p className="text-sm text-gray-500 font-poppins">{brand.owner}</p>
                         </div>
                         <StatusBadge status={brand.status} />
                     </div>
@@ -99,7 +101,7 @@ const ResponsiveTable = ({ brands }: { brands: Brand[] }) => {
                     {brands.map((brand) => (
                         <TableRow
                             key={brand.id}
-                            className="group hover:bg-gray-50/50 dark:hover:bg-gray-800/50 
+                            className="group hover:bg-gray-200 dark:hover:bg-gray-800/50 
                                      transition-colors duration-200"
                         >
                             <TableCell className="font-medium">{brand.id || "-"}</TableCell>
