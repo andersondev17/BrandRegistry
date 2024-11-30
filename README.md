@@ -43,7 +43,7 @@ jsonCopy{
 ```
 
 ## 🏗 Arquitecture
-Design patterns
+Design patterns and SOLID principles
 ### 1. Context Pattern (Estado Global)
 ```typescript
 export const BrandProvider = ({ children }: Props) => {
