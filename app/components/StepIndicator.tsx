@@ -107,10 +107,11 @@ const StepCircle = ({ config }: { config: StepConfig }) => {
 };
 
 const ProgressBar = ({ progress }: { progress: number }) => (
-    <progress
+    
+    <div
         className="absolute top-5 left-0 h-1 w-full bg-gradient-to-r from-gray-100/20 to-gray-100/10 
-      rounded-full overflow-hidden backdrop-blur-sm"
-        value={progress}
+        rounded-full overflow-hidden backdrop-blur-sm"
+        role="progressbar"
         aria-label={`Progreso: ${progress}% completado`}
         aria-valuenow={progress}
         aria-valuemin={0}
@@ -144,7 +145,7 @@ const ProgressBar = ({ progress }: { progress: number }) => (
                 }}
             />
         </motion.div>
-    </progress>
+    </div>
 );
 
 

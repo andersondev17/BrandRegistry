@@ -1,6 +1,6 @@
 "use client";
 import { initialBrands } from '@/data/brands';
-import { Brand, BrandFormData } from '@/lib/types';
+import { Brand, BrandFormData } from '@/lib/types/types';
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 
 const STORAGE_KEY = 'brandRegistry';

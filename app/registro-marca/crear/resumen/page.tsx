@@ -2,7 +2,7 @@
 import { StepIndicator } from "@/app/components/StepIndicator";
 import { Button } from "@/app/components/ui/button";
 import { useBrands } from "@/context/BrandContext";
-import { BrandFormData } from "@/lib/types";
+import { BrandFormData } from "@/lib/types/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

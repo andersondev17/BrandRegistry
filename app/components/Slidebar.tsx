@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/app/components/ui/button";
-import { BrandStatus } from "@/lib/types";
+import { BrandStatus } from "@/lib/types/types";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { BookmarkPlus, LayoutDashboard, Menu, X } from "lucide-react";
